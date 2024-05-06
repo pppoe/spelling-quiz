@@ -108,3 +108,10 @@ if __name__ == '__main__':
     with open(page_fpath, 'w') as f:
         f.write(minified)
     print (page_fpath)
+
+    ## add to quiz_list.txt if not already there
+    quiz_list_fpath = 'docs/quiz_list.txt'
+    existing_quiz_list = [l.rstrip() for l in open(quiz_list_fpath).readlines()]
+    if os.path.basename(page_fpath) not in existing_quiz_list:
+        with open(quiz_list_fpath, 'a') as f:
+            f.write(os.path.basename(page_fpath) + '\n')

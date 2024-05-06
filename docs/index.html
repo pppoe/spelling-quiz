@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spelling Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #audioList {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        audio {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #toggleButton {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #toggleButton:hover {
+            background-color: #005F6B;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose from:</h1>
+    <ul id="quizList"></ul>
+    <script>
+        function loadQuizFiles() {
+            const quizList = document.getElementById('quizList');
+            fetch('quiz_list.txt')
+                .then(response => response.text())
+                .then(data => {
+                    const quizFiles = data.split('\n').filter(Boolean);
+                    quizFiles.forEach((file,index) => {
+                        const listItem = document.createElement('li');
+                        const link = document.createElement('a');
+                        link.href = '/' + file;
+                        const quizName = file.split('.')[0]
+                        link.textContent = quizName;
+                        listItem.appendChild(link);
+                        quizList.appendChild(listItem);
+                    });
+            });
+        }
+        window.onload = loadQuizFiles;
+    </script>
+</body>
