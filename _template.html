@@ -47,16 +47,46 @@
         button:hover {
             background-color: #45a049;
         }
+
+        #toggleButton {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #toggleButton:hover {
+            background-color: #005F6B;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Spell This Word</h1>
+    <h1>Spell This Word - __NAME__</h1>
     <ul id="audioList"></ul>
+    <div style="height: 1024px;"></div>
+    <button id="toggleButton">Show Keys</button>
+	<section id="keys">
+	</section>
 
     <script>
+
         // Function to load audio files from a folder
         function loadAudioFiles() {
             const audioList = document.getElementById('audioList');
+            const keysListHolder = document.getElementById('keys');
+            const keysList = document.createElement('ol');
+            keysListHolder.appendChild(keysList);
             // Add audio files here
             const audioFiles = [
                 __CONTENT__
@@ -66,7 +96,10 @@
                 const audio = document.createElement('audio');
                 const source = document.createElement('source');
                 const playButton = document.createElement('button');
-                const fileName = file.split('.').slice(0, -1).join('.');
+                const key = file.split('.')[0].split('_')[1];
+                const keyElem = document.createElement('li');
+                keyElem.textContent = key;
+                keysList.appendChild(keyElem);
 
                 source.src = 'audio/' + file;
                 audio.controls = false;
@@ -82,7 +115,16 @@
                 listItem.appendChild(playButton);
                 audioList.appendChild(listItem);
             });
+
+            const key = document.querySelector('#keys');
+            key.classList.toggle('hidden');
         }
+
+        // Toggle visibility of Keys
+        document.getElementById('toggleButton').addEventListener('click', function() {
+            const key = document.querySelector('#keys');
+			key.classList.toggle('hidden');
+        });
 
         // Call the function to load audio files when the page loads
         window.onload = loadAudioFiles;

@@ -10,8 +10,6 @@ if __name__ == '__main__':
 
     args = argparse.ArgumentParser()
     args.add_argument('--openai_token', type=str, default=None, required=True, help='OpenAI API key')
-    # args.add_argument('--lang', required=True, type=str, choices=['en', 'zh'], default='en', required=False, help='Language')
-    # args.add_argument('inputs', type=str, help="a list of characters or words, separated by comma")
     args.add_argument('--name', required=False, type=str, default=None, help='quiz set name (use date by default)')
     args = args.parse_args()
 
@@ -103,7 +101,7 @@ if __name__ == '__main__':
     with open(key_fpath, 'w') as f:
         f.write('\n'.join(audio_keys) + '\n')
     page_fpath = f'docs/{args.name}.html'
-    lines = [l for l in open('_template.html').readlines()]
+    lines = [l.replace('__NAME__',args.name) for l in open('_template.html').readlines()]
     content_line_ind = [l.strip().rstrip() for l in lines].index('__CONTENT__')
     lines[content_line_ind] = ','.join([f"'{k}'" for k in audio_file_names]) + '\n'
     minified = ''.join(lines) + '\n'
