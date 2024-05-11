@@ -84,7 +84,7 @@
                     quizFiles.forEach((file,index) => {
                         const listItem = document.createElement('li');
                         const link = document.createElement('a');
-                        link.href = '/' + file;
+                        link.href = '/spelling-quiz/' + file;
                         const quizName = file.split('.')[0]
                         link.textContent = quizName;
                         listItem.appendChild(link);
