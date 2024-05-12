@@ -1,3 +1,10 @@
+## Blog Post
+
+[Spelling Test](https://blog.haoxiang.org/2024/05/spelling-test/)
+
+<img src="https://raw.githubusercontent.com/pppoe/images-repo/main/blog/misc/spelling-test-post.webp" width="512"/>
+
+
 ## Example
 
 [Quiz of 04292024](https://pppoe.github.io/spelling-quiz/04292024.html)
