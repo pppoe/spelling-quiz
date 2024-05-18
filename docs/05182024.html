@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spell this word</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #audioList {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        audio {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #toggleButton {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #toggleButton:hover {
+            background-color: #005F6B;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spell This Word - 05182024</h1>
+    <ul id="audioList"></ul>
+    <div style="height: 1024px;"></div>
+    <button id="toggleButton">Show Keys</button>
+	<section id="keys">
+	</section>
+
+    <script>
+
+        // Function to load audio files from a folder
+        function loadAudioFiles() {
+            const audioList = document.getElementById('audioList');
+            const keysListHolder = document.getElementById('keys');
+            const keysList = document.createElement('ol');
+            keysListHolder.appendChild(keysList);
+            // Add audio files here
+            const audioFiles = [
+'en_maddest.mp3','en_busy.mp3','en_bigger.mp3','en_shopping.mp3','en_unfinished.mp3','en_restarted.mp3','en_floor.mp3','en_slowly.mp3','en_threw.mp3','en_disrespect.mp3','en_agree.mp3'
+            ];
+            audioFiles.forEach((file,index) => {
+                const listItem = document.createElement('li');
+                const audio = document.createElement('audio');
+                const source = document.createElement('source');
+                const playButton = document.createElement('button');
+                const key = file.split('.')[0].split('_')[1];
+                const keyElem = document.createElement('li');
+                keyElem.textContent = key;
+                keysList.appendChild(keyElem);
+
+                source.src = 'audio/' + file;
+                audio.controls = false;
+
+                playButton.textContent = 'Play';
+                playButton.addEventListener('click', function() {
+                    audio.play();
+                });
+
+                audio.appendChild(source);
+                listItem.appendChild(document.createTextNode(index + ' '));
+                listItem.appendChild(audio);
+                listItem.appendChild(playButton);
+                audioList.appendChild(listItem);
+            });
+
+            const key = document.querySelector('#keys');
+            key.classList.toggle('hidden');
+        }
+
+        // Toggle visibility of Keys
+        document.getElementById('toggleButton').addEventListener('click', function() {
+            const key = document.querySelector('#keys');
+			key.classList.toggle('hidden');
+        });
+
+        // Call the function to load audio files when the page loads
+        window.onload = loadAudioFiles;
+    </script>
+</body>
+
