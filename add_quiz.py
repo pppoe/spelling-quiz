@@ -115,3 +115,4 @@ if __name__ == '__main__':
     if os.path.basename(page_fpath) not in existing_quiz_list:
         with open(quiz_list_fpath, 'a') as f:
             f.write(os.path.basename(page_fpath) + '\n')
+    os.system(f'git add . && git commit -m "{args.name}" && git push')
