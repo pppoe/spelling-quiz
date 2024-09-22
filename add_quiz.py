@@ -1,3 +1,4 @@
+from pydantic import BaseModel
 import json, tqdm
 import argparse
 import requests
@@ -13,8 +14,10 @@ if __name__ == '__main__':
     args.add_argument('--name', required=False, type=str, default=None, help='quiz set name (use date by default)')
     args = args.parse_args()
 
-    english_words_raw = input("English Words:")
-    chinese_characters_raw = None#input("Chinese Characters:") # disabled for now, OpenAI's tts for Chinese does not work well
+    model_name = 'gpt-3.5-turbo'#gpt-4o-mini'
+
+    english_words_raw = None #input("English Words:")
+    chinese_characters_raw = input("Chinese Characters:") # disabled for now, OpenAI's tts for Chinese does not work well
     english_sentences_raw = None#input("English Sentences:") # TBD
 
     if args.name is None: args.name = datetime.now().strftime('%Y%m%d')
@@ -25,6 +28,10 @@ if __name__ == '__main__':
     client = OpenAI(api_key=args.openai_token)
     res = {}
 
+    # class Example(BaseModel):
+        # steps: list[Step]
+        # final_answer: str
+
     if chinese_characters_raw is not None:
         prompt = f'''
             I am giving you a list of Chinese characters. Please organize them into a JSON file. For each Chinese character, make it a dict of the character and an example sentence using the character.
@@ -32,7 +39,7 @@ if __name__ == '__main__':
             The format of the output JSON file is:
             ''' + json.dumps({ "ChineseCharacters": [ { "character":"","example_phrase":""}]})
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model=model_name,
             messages=[
                 {
                     "role": "user",
@@ -53,7 +60,7 @@ if __name__ == '__main__':
             The format of the output JSON file is:
             ''' + json.dumps({ "EnglishWords": [ { "word":"","example_phrase":""}]})
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model=model_name,
             messages=[
                 {
                     "role": "user",
@@ -70,11 +77,11 @@ if __name__ == '__main__':
     json.dump(res, open(fpath,'w'))
     res = json.load(open(fpath))
     audio_gen_tasks = []
-    # for val in res.get("ChineseCharacters",[]):
-        # ch = val["character"]
-        # prompt = f'开始听写............... {val["character"]} ............ {val["example_phrase"]} ...'
-        # audio_file_path = f'{audio_root}/zh_{ch}.mp3'
-        # audio_gen_tasks.append([prompt, audio_file_path])
+    for val in res.get("ChineseCharacters",[]):
+        ch = val["character"]
+        prompt = f'开始听写............... {val["character"]} ............ {val["example_phrase"]} ...'
+        audio_file_path = f'{audio_root}/zh_{ch}.mp3'
+        audio_gen_tasks.append([prompt, audio_file_path])
 
     for val in res.get("EnglishWords",[]):
         ch = val["word"]
