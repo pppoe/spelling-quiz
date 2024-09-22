@@ -16,8 +16,8 @@ if __name__ == '__main__':
 
     model_name = 'gpt-3.5-turbo'#gpt-4o-mini'
 
-    english_words_raw = None #input("English Words:")
-    chinese_characters_raw = input("Chinese Characters:") # disabled for now, OpenAI's tts for Chinese does not work well
+    english_words_raw = input("English Words:")
+    chinese_characters_raw = None #input("Chinese Characters:") # disabled for now, OpenAI's tts for Chinese does not work well
     english_sentences_raw = None#input("English Sentences:") # TBD
 
     if args.name is None: args.name = datetime.now().strftime('%Y%m%d')
